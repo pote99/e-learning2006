@@ -33,23 +33,50 @@
 		$cod_istituto=$_POST['cod_istituto'];
 	//genera un codice casuale di conferma
 	$codice_conferma=bin2hex(rand(-1E+18,+1E+18));
+ 
 	require 'connect.php';
 	$msg="INSERT INTO utente
 		  (username, password, cognome, nome, email, cod_comune, cod_istituto,id_gruppo, confermato, codice_conferma)
 		  VALUES
-		  ('$username', MD5('$password'), '$cognome', '$nome', '$email', '$cod_comune', '$cod_istituto', 3, 0, '$codice_conferma')";
-	$query=mysqli_query($msg,$sock);
+		  ('$username', MD5('$password'), '$cognome', '$nome', '$email', '$cod_comune', '$cod_istituto', 0, 0, '$codice_conferma');";
+
+	$query=mysqli_query($sock,$msg);
+
 	//in caso di duplicazione della chiave torna all’inserimento
-	if($query==0) 
-		header("location: richiesta_registrazione.php");
+	if($query==0)
+	echo mysqli_error($sock);
+		//header("location: richiesta_registrazione.php");
 	//invia mail all’indirizzo fornito
 	$subject="richiesta registrazione community";
 	$mailmsg="Caro $nome $cognome,\r\nPer completare la registrazione percorri il seguente
 			  link\r\n\http://localhost/e-learning2006/conferma_registrazione.php?username=$username&codice_conferma=$codice_conferma
 			  \r\nCordiali Saluti,\r\nl'amministratore
 			  della community\r\n";
-	$headers="From: webmaster@community\r\nReply-To: webmaster@communty\r\n";
-	@mail($email,$subject,$mailmsg,$headers);
+	$headers="From: webmaster@community.com\r\nReply-To: webmaster@community.com\r\n";
+	/*mail($email,$subject,$mailmsg,$headers);*/
+ 
+	//definire server smtp
+	$mail = new PHPMailer();
+
+	$mail->IsSMTP();
+$mail->CharSet="UTF-8";
+$mail->SMTPSecure = 'tls';
+$mail->Host = 'smtp.gmail.com';
+$mail->Port = 587;
+$mail->Username = 'MyUsername@gmail.com';
+$mail->Password = 'valid password';
+$mail->SMTPAuth = true;
+
+$mail->From = 'MyUsername@gmail.com';
+$mail->FromName = 'Mohammad Masoudian';
+$mail->AddAddress('anotherValidGmail@gmail.com');
+$mail->AddReplyTo('phoenixd110@gmail.com', 'Information');
+
+$mail->IsHTML(true);
+$mail->Subject    = "PHPMailer Test Subject via Sendmail, basic";
+$mail->AltBody    = "To view the message, please use an HTML compatible email viewer!";
+$mail->Body    = "Hello";
+
 ?>
 <html>
 	<head>
@@ -57,7 +84,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	</head>
 	<body>
-		risposta registrazione
+		
 		Grazie per richiesta la registrazione 
 		<b><?php echo $nome." ".$cognome?></b><br>
 		Una mail contenente le istruzioni per completare la registrazione è stata
