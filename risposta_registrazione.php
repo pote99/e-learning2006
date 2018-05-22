@@ -1,10 +1,11 @@
 <?php //verifica l’esistenza dei parametri di ingresso
 
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-require_once 'PHPMailer/src/PHPMailer.php';
-require_once 'PHPMailer/src/SMTP.php';
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
 
 	if (!isset($_POST['username'])) 
 		die('manca username');
@@ -64,27 +65,41 @@ require_once 'PHPMailer/src/SMTP.php';
  
 	//definire server smtp
 
-	use PHPMailer\PHPMailer\PHPMailer;
-	use PHPMailer\PHPMailer\Exception;
+$mail = new PHPMailer(); // create a new object
+$mail->IsSMTP(); // enable SMTP
+$mail->SMTPDebug = 2; // debugging: 1 = errors and messages, 2 = messages only
 
-	$mail = new PHPMailer(); // create a new object
-	$mail->IsSMTP(); // enable SMTP
-	$mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
-	$mail->SMTPAuth = true; // authentication enabled
-	$mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for Gmail
-	$mail->Host = "smtp.gmail.com";
-	$mail->Port = 465; // or 587
-	$mail->IsHTML(true);
-	$mail->Username = "learning2006staff@gmail.com";
-	$mail->Password = "classe5d3";
-	$mail->SetFrom("learning2006staff@gmail.com");
-	$mail->Subject = $subject;
-	$mail->Body = $mailmsg;
-	$mail->AddAddress($email);
+$mail->SMTPAuth = true; // enable SMTP authentication
+$mail->SMTPSecure = "tls"; // sets the prefix to the server
+$mail->Host = "smtp.gmail.com"; // sets GMAIL as the SMTP server
+$mail->Port = 587; // set the SMTP port for the GMAIL server
+$mail->Username = "learning2006staff@gmail.com"; // GMAIL username
+$mail->Password = "classe5d3"; // GMAIL password
 
-	if(!$mail->Send()) {
-		echo "Mailer Error: " . $mail->ErrorInfo;
-	 }
+$mail->SMTPOptions = array(
+    'ssl' => array(
+        'verify_peer' => false,
+        'verify_peer_name' => false,
+        'allow_self_signed' => true
+    )
+);
+
+$mail->From = "learning2006staff@gmail.com";
+$mail->FromName = "E-Learning2006";
+$mail->Subject = $subject;
+$mail->MsgHTML($mailmsg);
+
+$mail->AddAddress($email,"name to");
+$mail->IsHTML(true); // send as HTML
+
+
+ if(!$mail->Send()) {
+    echo "Mailer Error: " . $mail->ErrorInfo;
+ } else {
+    echo "Message has been sent";
+ }
+
+?>
 ?>
 <html>
 	<head>
