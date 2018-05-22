@@ -1,4 +1,11 @@
 <?php //verifica l’esistenza dei parametri di ingresso
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+require_once 'PHPMailer/src/PHPMailer.php';
+require_once 'PHPMailer/src/SMTP.php';
+
 	if (!isset($_POST['username'])) 
 		die('manca username');
 	else 
@@ -56,7 +63,10 @@
 	/*mail($email,$subject,$mailmsg,$headers);*/
  
 	//definire server smtp
-	
+
+	use PHPMailer\PHPMailer\PHPMailer;
+	use PHPMailer\PHPMailer\Exception;
+
 	$mail = new PHPMailer(); // create a new object
 	$mail->IsSMTP(); // enable SMTP
 	$mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
