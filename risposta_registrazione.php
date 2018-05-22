@@ -56,27 +56,25 @@
 	/*mail($email,$subject,$mailmsg,$headers);*/
  
 	//definire server smtp
-	$mail = new PHPMailer();
+	
+	$mail = new PHPMailer(); // create a new object
+	$mail->IsSMTP(); // enable SMTP
+	$mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
+	$mail->SMTPAuth = true; // authentication enabled
+	$mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for Gmail
+	$mail->Host = "smtp.gmail.com";
+	$mail->Port = 465; // or 587
+	$mail->IsHTML(true);
+	$mail->Username = "learning2006staff@gmail.com";
+	$mail->Password = "classe5d3";
+	$mail->SetFrom("learning2006staff@gmail.com");
+	$mail->Subject = $subject;
+	$mail->Body = $mailmsg;
+	$mail->AddAddress($email);
 
-	$mail->IsSMTP();
-$mail->CharSet="UTF-8";
-$mail->SMTPSecure = 'tls';
-$mail->Host = 'smtp.gmail.com';
-$mail->Port = 587;
-$mail->Username = 'MyUsername@gmail.com';
-$mail->Password = 'valid password';
-$mail->SMTPAuth = true;
-
-$mail->From = 'MyUsername@gmail.com';
-$mail->FromName = 'Mohammad Masoudian';
-$mail->AddAddress('anotherValidGmail@gmail.com');
-$mail->AddReplyTo('phoenixd110@gmail.com', 'Information');
-
-$mail->IsHTML(true);
-$mail->Subject    = "PHPMailer Test Subject via Sendmail, basic";
-$mail->AltBody    = "To view the message, please use an HTML compatible email viewer!";
-$mail->Body    = "Hello";
-
+	if(!$mail->Send()) {
+		echo "Mailer Error: " . $mail->ErrorInfo;
+	 }
 ?>
 <html>
 	<head>
