@@ -52,8 +52,7 @@ require 'PHPMailer/src/SMTP.php';
 
 	//in caso di duplicazione della chiave torna all’inserimento
 	if($query==0)
-	echo mysqli_error($sock);
-		//header("location: richiesta_registrazione.php");
+		header("location: richiesta_registrazione.php");
 	//invia mail all’indirizzo fornito
 	$subject="richiesta registrazione community";
 	$mailmsg="Caro $nome $cognome,\r\nPer completare la registrazione percorri il seguente
@@ -67,7 +66,7 @@ require 'PHPMailer/src/SMTP.php';
 
 $mail = new PHPMailer(); // create a new object
 $mail->IsSMTP(); // enable SMTP
-$mail->SMTPDebug = 2; // debugging: 1 = errors and messages, 2 = messages only
+//$mail->SMTPDebug = 2; // debugging: 1 = errors and messages, 2 = messages only
 
 $mail->SMTPAuth = true; // enable SMTP authentication
 $mail->SMTPSecure = "tls"; // sets the prefix to the server
@@ -95,12 +94,10 @@ $mail->IsHTML(true); // send as HTML
 
  if(!$mail->Send()) {
     echo "Mailer Error: " . $mail->ErrorInfo;
- } else {
-    echo "Message has been sent";
  }
 
 ?>
-?>
+
 <html>
 	<head>
 		<title>risposta registrazione</title>
