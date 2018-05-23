@@ -56,7 +56,7 @@ require 'PHPMailer/src/SMTP.php';
 	//invia mail all’indirizzo fornito
 	$subject="richiesta registrazione community";
 	$mailmsg="Caro $nome $cognome,\r\nPer completare la registrazione percorri il seguente
-			  link\r\n\http://localhost/e-learning2006/conferma_registrazione.php?username=$username&codice_conferma=$codice_conferma
+			  link\r\n\http://localhost:8080/e-learning2006/conferma_registrazione.php?username=$username&codice_conferma=$codice_conferma
 			  \r\nCordiali Saluti,\r\nl'amministratore
 			  della community\r\n";
 	$headers="From: webmaster@community.com\r\nReply-To: webmaster@community.com\r\n";
@@ -88,7 +88,7 @@ $mail->FromName = "E-Learning2006";
 $mail->Subject = $subject;
 $mail->MsgHTML($mailmsg);
 
-$mail->AddAddress($email,"name to");
+$mail->AddAddress($email,"$nome $cognome");
 $mail->IsHTML(true); // send as HTML
 
 
