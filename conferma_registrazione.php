@@ -21,7 +21,7 @@ require 'PHPMailer/src/SMTP.php';
 		  WHERE username='$username'
 		  AND codice_conferma='$codice_conferma'";
 	$query=mysqli_query($sock,$msg);
-	if($query==0) 
+	if(!$query) 
 		die(mysqli_error());	//se i dati non sono corretti abbandona
 	if (mysqli_num_rows($query)==0) 
 		die('conferma di registrazione non valida');	//se i dati sono corretti estrae le informazioni sull’utente
