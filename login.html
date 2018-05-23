@@ -7,15 +7,15 @@
     <title>login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen"  />
-    <!--<script src="convalida.js"></script>-->
+    <script src="convalida_login.js"></script>
 </head>
 <body>
     <h1>Benvenuto su e-learning 2006!</h1>
-    <form action="#" method"post">
-        username<br>
-        <input type="text" name="username"/><br><br>
-        password<br>
-        <input type="password" name="password"/><br>
+    <form action="conferma_login.php" method="POST" name="registra" onsubmit="return convalida(this)">
+        username
+			<input name="username" type="text"><br>
+			password
+			<input name="password" type="password"><br>
         <br>
         <input type="submit" name="Submit" value="Entra" />
         <input type="button" value="Registrati" onclick="window.location.href='./richiesta_registrazione.php';"></button> 

@@ -81,7 +81,7 @@ $mail->IsHTML(true); // send as HTML
 			Ora puoi accedere alle aree autenticate usando la tua username e password.
 		</p>
 		<p>
-			<a href="index.php">indietro</a> <br>
+			<a href="login.html">login</a> <br>
 		</p>
 	</body>
 </html>
