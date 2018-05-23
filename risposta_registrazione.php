@@ -51,7 +51,7 @@ require 'PHPMailer/src/SMTP.php';
 	$query=mysqli_query($sock,$msg);
 
 	//in caso di duplicazione della chiave torna all’inserimento
-	if($query==0)
+	if(!$query)
 		header("location: richiesta_registrazione.php");
 	//invia mail all’indirizzo fornito
 	$subject="richiesta registrazione community";

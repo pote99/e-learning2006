@@ -31,7 +31,7 @@ require 'PHPMailer/src/SMTP.php';
 	$email=$row_utente['email'];	//convalida l’utente
 	$msg="UPDATE utente SET confermato=1 WHERE username='$username'";
 	$query=mysqli_query($sock,$msg);
-	if($query==0) 
+	if(!$query) 
 		die(mysqli_error());	//invia un email all’indirizzo specificato
 	$subject="conferma registrazione community";
 	$mailmsg="Caro $nome $cognome,\r\nLa tua registrazione è stata completata\r\nCordiali Saluti,\r\nl'amministratore della community\n";
