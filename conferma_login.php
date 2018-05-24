@@ -24,7 +24,7 @@ if (!isset($_POST['username']))
 		$password=$_POST['password'];
 
  //estrae dalla banca dati un eventuale utente con queste credenziali
- $msg="SELECT CONCAT(t1.nome,' ',t1.cognome) AS utente,t2.descrizione AS ruolo, utente.confermato AS confermato
+ $msg="SELECT CONCAT(t1.nome,' ',t1.cognome) AS utente,t2.descrizione AS ruolo, t1.confermato AS confermato
  FROM utente AS t1,gruppo AS t2
  WHERE t1.id_gruppo=t2.id_gruppo
  AND username='$username'

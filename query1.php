@@ -1,7 +1,18 @@
 <?php 
-	require 'connect.php' //connessione alla banca dati
-	require 'session.php' //verifica stato di autenticazione
+	
+	require 'connect.php'; //connessione alla banca dati
+	 //verifica stato di autenticazione
 	//accesso consentito solo agli amministratori
+	session_start();
+    if (!isset($_SESSION['username']))
+    //non esiste 'username'
+    //non autenticato: redireziona alla form di login
+    header("location: login.html");
+
+    if ($_SESSION['confermato']==0) {
+        echo "prima di poter effetuare qualsiasi operazione devi confermarti, controlla la tua mail!<br>";
+        
+    }
 	if($_SESSION['ruolo']!='amministratore') die('riservato agli amministratori');
 	$msg="SELECT t1.cognome, t1.nome, t3.descrizione AS comune, t5.descrizione AS modulo, t5.docente_studente AS docente
 	      FROM utente AS t1, gruppo AS t2, comune AS t3, iscrizione AS t4, modulo AS t5
@@ -11,8 +22,8 @@
 		        AND t4.id_modulo=t5.id_modulo
 				AND t2.descrizione= 'docente'
 		  ORDER BY t1.cognome,t1.nome,t5.descrizione";
-	$query=mysql_query($msg,$sock);
-	if($query==0) die(mysql_error());
+	$query=mysqli_query($sock,$msg);
+	if(!$query) die(mysqli_error());
 ?>
 <html>
 	<head>
@@ -30,7 +41,7 @@
 				<td>modulo</td>
 				<td>solo&nbsp;docenti </td>
 			</tr>
-			<?php while($row_user=mysql_fetch_assoc($query)) { //riga dinamica ?>
+			<?php while($row_user=mysqli_fetch_assoc($query)) { //riga dinamica ?>
 				<tr>
 					<td><?php echo stripslashes($row_user['cognome']) ?></td>
 					<td><?php echo stripslashes($row_user['nome']) ?></td>

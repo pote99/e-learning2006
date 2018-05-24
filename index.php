@@ -4,6 +4,22 @@
     //non esiste 'username'
     //non autenticato: redireziona alla form di login
     header("location: login.html");
+
+    if ($_SESSION['confermato']==0) {
+        echo "prima di poter effetuare qualsiasi operazione devi confermarti, controlla la tua mail!<br>";
+        
+    }else{
+        if ($_SESSION['ruolo']=="studente")
+        {
+           echo '<a href="query2.php">Area Studenti</a> <br>';
+        }
+
+        if ($_SESSION['ruolo']=="amministratore")
+        {
+           echo '<a href="query1.php">Area Amministratore</a> <br>';
+           echo '<a href="query2.php">Area Studenti</a> <br>';
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -17,7 +33,7 @@
 </head>
 <body>
 
-    
+    <a href="logout.php">logout</a> <br>
 
 </body>
 </html>

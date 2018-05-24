@@ -1,6 +1,16 @@
 <?php 
-	require 'connect.php' //connessione alla banca dati
-	require 'session.php' //verifica stato di autenticazione
+	require 'connect.php'; //connessione alla banca dati
+	//require 'session.php' //verifica stato di autenticazione
+	session_start();
+    if (!isset($_SESSION['username']))
+    //non esiste 'username'
+    //non autenticato: redireziona alla form di login
+    header("location: login.html");
+
+    if ($_SESSION['confermato']==0) {
+        echo "prima di poter effetuare qualsiasi operazione devi confermarti, controlla la tua mail!<br>";
+        
+    }
 	//accesso consentito a tutti
 	$msg="SELECT t1.username, t1.cognome, t1.nome, t4.descrizione AS modulo, t3.titolo, t3.descrizione AS riassunto, t5.descrizione AS tipo, t3.data
 		  FROM utente AS t1, gruppo AS t2, documento AS t3, modulo AS t4, tipo AS t5
@@ -10,7 +20,7 @@
 				AND t3.id_tipo=t5.id_tipo 
 				AND t2.descrizione= 'studente'
 		  ORDER BY t1.cognome,t1.nome,t4.descrizione,t3.titolo";
-	$query=mysql_query($msg,$sock);
+	$query=mysqli_query($sock,$msg);
 ?>
 <html>
 	<head>
@@ -30,7 +40,7 @@
 				<td>tipo</td>
 				<td>data</td>
 			</tr>
-			<?php while($row_user=mysql_fetch_assoc($query)) { //riga dinamica ?>
+			<?php while($row_user=mysqli_fetch_assoc($query)) { //riga dinamica ?>
 				<tr>
 					<td><?php echo $row_user['username'] ?></td>
 					<td><?php echo stripslashes($row_user['cognome']) ?></td>
@@ -42,5 +52,7 @@
 				</tr>
 			<?php } ?>
 		</table>
+		<a href="index.php">indietro</a> <br>
+		<a href="logout.php">logout</a> <br>
 	</body>
 </html>
